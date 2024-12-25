@@ -22,11 +22,9 @@
     "@aws-cdk/aws-iam": "^2.0.0"
   },
   "os": [
-    "linux",
-    "darwin"
+    "linux"
   ],
   "cpu": [
-    "x64",
-    "arm64"
+    "x64"
   ]
 }
