@@ -26,7 +26,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install CDK dependencies
         run: |
-          # Add your test command here
-          echo "Running tests..."
+          npm install -g aws-cdk
+          npm install
+
+      - name: Run Python tests
+        run: |
+          # Add your Python test command here
+          echo "Running Python tests..."
+
+      - name: Run CDK tests
+        run: |
+          npm run build
+          npm test

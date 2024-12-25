@@ -1,5 +1,5 @@
 fastapi[standard]
 kubernetes
-aws-cdk.core
+aws-cdk-lib
 aws-cdk.aws-eks
-aws-cdk.aws-iam
+boto3
