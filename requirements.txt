@@ -1,5 +1,3 @@
 fastapi[standard]
 kubernetes
-aws-cdk-lib
-aws-cdk.aws-eks
 boto3
