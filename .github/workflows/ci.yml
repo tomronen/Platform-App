@@ -21,7 +21,23 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Cache Python dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check for main.py
+        run: |
+          if [ ! -f main.py ]; then
+            echo "main.py not found!"
+            exit 1
+          fi
+
+      - name: Run tests
+        run: |
+          python -m unittest discover -s tests
+
+      - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
@@ -29,44 +45,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Cache Node.js modules
+      - name: Cache Python packages
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-pip-
 
-      - name: Install CDK dependencies
+      - name: Run test script
         run: |
-          npm install -g aws-cdk
-          npm install
-        working-directory: cdk
-
-      - name: Run Python tests
-        run: |
-          # Add your Python test command here
-          echo "Running Python tests..."
-
-      - name: Check for package.json
-        run: |
-          if [ ! -f cdk/package.json ]; then
-            echo "package.json not found!"
-            exit 1
-          fi
-
-      - name: Run CDK tests
-        run: |
-          npm run build
-          npm test
-        working-directory: cdk
+          python main.py

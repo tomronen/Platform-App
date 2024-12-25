@@ -1,3 +1,5 @@
 fastapi[standard]
-kubernetes
-boto3
+pulumi
+pulumi-aws
+pulumi-eks
+pulumi-kubernetes
