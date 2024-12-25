@@ -35,13 +35,22 @@ jobs:
         run: |
           npm install -g aws-cdk
           npm install
+        working-directory: cdk
 
       - name: Run Python tests
         run: |
           # Add your Python test command here
           echo "Running Python tests..."
 
+      - name: Check for package.json
+        run: |
+          if [ ! -f cdk/package.json ]; then
+            echo "package.json not found!"
+            exit 1
+          fi
+
       - name: Run CDK tests
         run: |
           npm run build
           npm test
+        working-directory: cdk
